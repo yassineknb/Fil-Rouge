@@ -40,3 +40,7 @@ Vite
 Redux Toolkit
 
 TailwindCSS
+
+## Cahier des charges : https://docs.google.com/document/d/1_5z30q_mWs7HKnpgSOYPrL-EHF7L8ACYycsbvE1I464/edit?usp=sharing
+## Plannification : https://trello.com/invite/b/6922359b42f1e22cc44cc8ab/ATTI68b93b7a6262d1e99d339cef733d48b879CE132C/fil-rouge
+
