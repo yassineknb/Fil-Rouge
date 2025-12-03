@@ -28,7 +28,6 @@ Sanctum
 Laratrust (Rôles & Permissions)
 
 
-
 ## Frontend :
 
 React 18
