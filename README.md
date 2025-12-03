@@ -1,18 +1,21 @@
 # 🏋️‍♂️ FitLog
 
-FitLog est une application web qui permet de suivre les séances d’entraînement, d’enregistrer les exercices et d’analyser la progression de l’utilisateur. Le projet combine un backend Laravel 10 et un frontend React pour offrir une expérience moderne et intuitive.
+FitLog est une application web moderne pour suivre les séances d’entraînement, enregistrer les exercices et analyser la progression utilisateur.
+Le projet utilise un backend robuste avec Laravel 10 et un frontend dynamique via React 18, afin d’offrir une expérience fluide, sportive et intuitive.
 
 # 🚀 Fonctionnalités :
 
-Authentification sécurisée (Laravel Sanctum)
+Authentification sécurisée avec Laravel Sanctum
 
-Création et gestion des séances d’entraînement
+Gestion des séances : création, modification et suppression
 
-Ajout d’exercices, séries, poids et répétitions
+Suivi détaillé des exercices : séries, répétitions, poids
 
-Dashboard avec statistiques et graphiques
+Statistiques et Dashboard interactif avec graphiques
 
-Interface responsive (mobile & desktop)
+UI entièrement responsive (mobile & desktop)
+
+Système de rôles & permissions avec Laratrust
 
 
 
