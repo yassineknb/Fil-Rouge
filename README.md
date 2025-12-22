@@ -26,9 +26,9 @@ Framework : Laravel 10
 
 Base de données : MySQL 8
 
-Authentification & sécurité API : Laravel Sanctum (tokens)
+Authentification & Sécurité : Laravel Sanctum
 
-Gestion des accès : Système d’autorisations natif de Laravel (Policies & Middleware)
+Gestion des rôles et permissions : Laratrust
 
 ## Frontend :
 
