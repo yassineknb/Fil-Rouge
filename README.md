@@ -22,14 +22,13 @@ Système de rôles & permissions avec Laratrust
 # 🛠️ Stack Technique
 ## Backend :
 
-Laravel 10
+Framework : Laravel 10
 
-MySQL 8
+Base de données : MySQL 8
 
-Sanctum
+Authentification & sécurité API : Laravel Sanctum (tokens)
 
-Laratrust (Rôles & Permissions)
-
+Gestion des accès : Système d’autorisations natif de Laravel (Policies & Middleware)
 
 ## Frontend :
 
