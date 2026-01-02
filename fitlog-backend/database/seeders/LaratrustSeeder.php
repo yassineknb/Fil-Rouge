@@ -23,6 +23,7 @@ class LaratrustSeeder extends Seeder
                 'manage-exercises' => 'Manage Exercises',
             ],
             'user' => [
+                'manage-workouts' => 'Manage Workouts',
                 'manage-exercises' => 'Manage Exercises',
             ],
         ];

@@ -11,14 +11,18 @@ class Exercise extends Model
     protected $fillable = [
         'workout_id',
         'name',
-        'sets',
-        'reps',
-        'weight',
         'notes',
+        'calories',
+        'rpe' // Keeping RPE on parent if needed, though Sets have it too now.
     ];
 
     public function workout()
     {
         return $this->belongsTo(Workout::class);
+    }
+
+    public function sets()
+    {
+        return $this->hasMany(ExerciseSet::class);
     }
 }

@@ -32,18 +32,18 @@ class WorkoutPolicy
 
     public function create(User $user): bool
     {
-        return $user->hasPermission('manage-workouts');
+        return true;
     }
 
 
     public function update(User $user, Workout $workout): bool
     {
-        return $user->id === $workout->user_id && $user->hasPermission('manage-workouts');
+        return $user->id === $workout->user_id;
     }
 
 
     public function delete(User $user, Workout $workout): bool
     {
-        return $user->id === $workout->user_id && $user->hasPermission('manage-workouts');
+        return $user->id === $workout->user_id;
     }
 }

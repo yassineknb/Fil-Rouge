@@ -11,65 +11,73 @@ class ExerciseController extends Controller
 
     public function index(Request $request, $workoutId)
     {
-        $workout = Workout::findOrFail($workoutId);
 
-        $this->authorize('view', $workout);
-
-        $exercises = $workout->exercises()->latest()->get();
-
+        $workout = $request->user()->workouts()->findOrFail($workoutId);
+        $exercises = $workout->exercises()->with('sets')->oldest()->get();
         return response()->json($exercises);
     }
 
-
     public function store(Request $request, $workoutId)
     {
-        $workout = Workout::findOrFail($workoutId);
-
-
-
-        if ($request->user()->id !== $workout->user_id && !$request->user()->hasRole('admin')) {
-            abort(403, 'Unauthorized access to this workout.');
-        }
+        $workout = $request->user()->workouts()->findOrFail($workoutId);
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'sets' => 'required|integer|min:0',
-            'reps' => 'required|integer|min:0',
-            'weight' => 'required|numeric|min:0',
             'notes' => 'nullable|string',
+            'calories' => 'nullable|integer',
+            'sets' => 'required|array',
+            'sets.*.reps' => 'nullable|integer',
+            'sets.*.weight' => 'nullable|numeric',
+            'sets.*.rpe' => 'nullable|numeric|max:10',
         ]);
 
         $exercise = $workout->exercises()->create($validated);
 
-        return response()->json($exercise, 201);
+        if (!empty($validated['sets'])) {
+            $sets = collect($validated['sets'])->map(function ($set, $index) {
+                return array_merge($set, ['set_number' => $index + 1]);
+            })->toArray();
+            $exercise->sets()->createMany($sets);
+        }
+
+        return response()->json($exercise->load('sets'), 201);
     }
 
-
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        $exercise = Exercise::with('workout')->findOrFail($id);
-
-        $this->authorize('update', $exercise);
+        $exercise = Exercise::whereHas('workout', function ($q) use ($request) {
+            $q->where('user_id', $request->user()->id);
+        })->findOrFail($id);
 
         $validated = $request->validate([
-            'name' => 'sometimes|required|string|max:255',
-            'sets' => 'sometimes|required|integer|min:0',
-            'reps' => 'sometimes|required|integer|min:0',
-            'weight' => 'sometimes|required|numeric|min:0',
+            'name' => 'sometimes|string|max:255',
             'notes' => 'nullable|string',
+            'calories' => 'nullable|integer',
+            'sets' => 'sometimes|array',
+            'sets.*.reps' => 'nullable|integer',
+            'sets.*.weight' => 'nullable|numeric',
+            'sets.*.rpe' => 'nullable|numeric|max:10',
         ]);
 
         $exercise->update($validated);
 
-        return response()->json($exercise);
-    }
+        if (isset($validated['sets'])) {
+            $exercise->sets()->delete();
+            $sets = collect($validated['sets'])->map(function ($set, $index) {
+                return array_merge($set, ['set_number' => $index + 1]);
+            })->toArray();
+            $exercise->sets()->createMany($sets);
+        }
 
+        return response()->json($exercise->load('sets'));
+    }
 
     public function destroy(string $id)
     {
-        $exercise = Exercise::with('workout')->findOrFail($id);
 
-        $this->authorize('delete', $exercise);
+        $exercise = Exercise::whereHas('workout', function ($q) {
+            $q->where('user_id', request()->user()->id);
+        })->findOrFail($id);
 
         $exercise->delete();
 

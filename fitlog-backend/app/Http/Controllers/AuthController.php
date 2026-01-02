@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
-use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
+use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -23,13 +23,15 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $user->attachRole('user');
-        $token = $user->createToken('auth_token')->plainTextToken;
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'Bearer',
-        ]);
+        // Laratrust role
+        $user->addRole('user');
 
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'user' => $user,
+            'token' => $token,
+        ]);
     }
 
     public function login(Request $request)
@@ -41,30 +43,26 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
-        if (
-            !$user || !Hash::check(
-                $request->password,
-                $user->password
-            )
-        ) {
+        if (!$user || !Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
-                'email' => 'Les informations de connection sont incorrectes. ',
+                'email' => 'Les informations de connexion sont incorrectes.',
             ]);
-
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;
+
         return response()->json([
-            'access_token' => $token,
-            'token_type' => 'Bearer',
+            'user' => $user,
+            'token' => $token,
         ]);
-
-
     }
 
     public function logout(Request $request)
     {
-        $request->user()->token()->delete();
-        return response()->json(['message' => 'Deconnexion reussie']);
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json([
+            'message' => 'Déconnexion réussie',
+        ]);
     }
 }

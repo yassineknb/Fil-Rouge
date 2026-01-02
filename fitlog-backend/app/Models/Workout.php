@@ -9,10 +9,14 @@ class Workout extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'user_id',
         'title',
-        'description',
         'scheduled_at',
+        'type', // Musculation, Cardio, HIIT, etc.
+        'duration',
+        'calories_burned',
+        'exercises_count', // Cached count for performance or user Target
+        'status', // Planned, Completed, Skipped
+        'description',
     ];
 
     protected $casts = [
