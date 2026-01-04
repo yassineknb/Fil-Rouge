@@ -15,7 +15,6 @@ Statistiques et Dashboard interactif avec graphiques
 
 UI entièrement responsive (mobile & desktop)
 
-Système de rôles & permissions avec Laratrust
 
 
 
