@@ -28,7 +28,7 @@ Base de données : MySQL 8
 
 Authentification & Sécurité : Laravel Sanctum
 
-Gestion des rôles et permissions : Laratrust
+
 
 ## Frontend :
 

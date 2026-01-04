@@ -23,8 +23,7 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // Laratrust role
-        $user->addRole('user');
+        
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
